@@ -16,13 +16,13 @@ package src
 		public var exitToWorld:World;
 		import net.flashpunk.FP;
 		
-		public function ExitDown(x:Number = 0, y:Number = 0, imageSource:* = null, exitToWorld:World = null, complete:Boolean = false) 
+		public function ExitDown(x:Number = 0, y:Number = 0, imageSource:* = null, exitToWorld:World = null, fed:Boolean = false) 
 		{
 			image = new Image(imageSource);
 			super(x, y, image);
 			this.exitToWorld = exitToWorld;
 			
-			if (complete)
+			if (fed)
 				image.color = Colors.PLAINS_GREEN;
 			else	
 				image.color = Colors.BLOOD_RED;

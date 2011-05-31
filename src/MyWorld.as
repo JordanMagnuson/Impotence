@@ -9,10 +9,11 @@ package src
 	 */
 	public class MyWorld extends World
 	{
+		public var index:int = 0;
 		
-		public function MyWorld() 
+		public function MyWorld(index:int = 0) 
 		{
-			
+			this.index = 0;
 		}
 		
 		override public function begin():void

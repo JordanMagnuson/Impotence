@@ -13,9 +13,9 @@ package src
 			FP.screen.color = Colors.WHITE;
 			
 			// Console for debugging
-			FP.console.enable();					
+			FP.console.enable();		
 			
-			
+			FP.world = new Neighborhood;
 			
 			//Mouse.hide();
 		}
@@ -23,7 +23,6 @@ package src
 		override public function init():void
 		{
 			super.init();
-			FP.world = new TheWorld;
 		}
 	}
 }
