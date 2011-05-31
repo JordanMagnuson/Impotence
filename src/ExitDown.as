@@ -5,6 +5,7 @@ package src
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.World;
 	import net.jpunk.Colors;
+	import net.flashpunk.FP;
 	
 	/**
 	 * ...
@@ -14,7 +15,7 @@ package src
 	{
 		public var image:Image;
 		public var exitToWorld:World;
-		import net.flashpunk.FP;
+		public var fed:Boolean;
 		
 		public function ExitDown(x:Number = 0, y:Number = 0, imageSource:* = null, exitToWorld:World = null, fed:Boolean = false) 
 		{
@@ -22,6 +23,7 @@ package src
 			super(x, y, image);
 			this.exitToWorld = exitToWorld;
 			
+			this.fed = fed
 			if (fed)
 				image.color = Colors.PLAINS_GREEN;
 			else	

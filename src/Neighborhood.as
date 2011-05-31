@@ -15,17 +15,18 @@ package src
 		public function Neighborhood(index:int = 0) 
 		{
 			super(index);
+			this.depth = Global.NEIGHBORHOOD;
 		}
 		
 		override public function begin():void
 		{
-			super.begin();		
 			Global.neighborhoodIndex = this.index;
-			FP.world.add(new ExitUp(20, FP.halfHeight, new Village(Global.villageIndex)));
-			populate();			
+			trace('Global.neighborhoodIndex: ' + Global.neighborhoodIndex);
+			add(new ExitUp(20, FP.halfHeight, new Village(Global.villageIndex)));
+			super.begin();
 		}		
 		
-		public function populate():void
+		override public function populate():void
 		{
 			var x:int = GRID_SIZE;
 			var y:int = GRID_SIZE;
@@ -42,9 +43,13 @@ package src
 			}
 		}
 		
-		public function makePersonArray(index:int):Array
+		override public function markThisFed():void
 		{
-			return new Array(Global.continentIndex, Global.countryIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex, index);
+		}		
+		
+		public function makePersonArray(localIndex:int):Array
+		{
+			return new Array(Global.continentIndex, Global.nationIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex, localIndex);
 		}
 		
 		public function checkPersonFed(personArray:Array):Boolean

@@ -6,12 +6,18 @@ package src
 	 */
 	public class Global 
 	{
-		// Constants
-		
+		// Depth definitions
+		public static var depth:int;
+		public static const NEIGHBORHOOD:int = 0;
+		public static const VILLAGE:int = 1;
+		public static const TOWNSHIP:int = 2;
+		public static const COUNTY:int = 3;
+		public static const PREFECTURE:int = 4;
+		public static const PROVINCE:int = 5;
+		public static const NATION:int = 6;
 		
 		// Global variables
-		public static var fedContinents:Array = [];
-		public static var fedCountries:Array = [];
+		public static var fedNations:Array = [];
 		public static var fedProvinces:Array = [];
 		public static var fedPrefectures:Array = [];
 		public static var fedCounties:Array = [];
@@ -21,7 +27,7 @@ package src
 		public static var fedPeople:Array = [];
 		
 		public static var continentIndex:int = 0;
-		public static var countryIndex:int = 0;
+		public static var nationIndex:int = 0;
 		public static var provinceIndex:int = 0;
 		public static var prefectureIndex:int = 0;
 		public static var countyIndex:int = 0;
@@ -31,11 +37,6 @@ package src
 		
 		// Global entities
 		public static var player:Player;
-		
-		public static function checkMe():void
-		{
-			
-		}
 		
 	}
 

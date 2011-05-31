@@ -44,7 +44,7 @@ package src
 			fed = true;
 			Global.fedPeople.push(indexArray);
 			if (checkAllFed())
-				Global.fedNeighborhoods.push(new Array(Global.continentIndex, Global.countryIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex));
+				Global.fedNeighborhoods.push(new Array(Global.continentIndex, Global.nationIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex));
 		}
 		
 		public function checkAllFed():Boolean		
