@@ -15,7 +15,7 @@ package src
 			// Console for debugging
 			FP.console.enable();					
 			
-			FP.world = new Game;
+			
 			
 			//Mouse.hide();
 		}
@@ -23,6 +23,7 @@ package src
 		override public function init():void
 		{
 			super.init();
+			FP.world = new TheWorld;
 		}
 	}
 }

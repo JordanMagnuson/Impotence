@@ -14,21 +14,20 @@ package net.jpunk
 	public class TopDownMover extends Entity
 	{
 		public var speed:Number;
+		public var image:Image;
 		
-		public function TopDownMover(speed:Number, x:Number = 0, y:Number = 0, graphic:Graphic = null) 
+		public function TopDownMover(speed:Number, x:Number = 0, y:Number = 0, image:Image = null) 
 		{
-			super(x, y, graphic);
+			super(x, y, image);
+			this.image = image;
 			this.speed = speed;
 			type = 'top_down_mover';
-			layer = 0;
+			layer = -1;
 			
 			// Initialize image, hitbox
-			(graphic as Image).originX = (graphic as Image).width / 2;
-			(graphic as Image).originY = (graphic as Image).height / 2;
-			(graphic as Image).x = -(graphic as Image).originX;
-			(graphic as Image).y = -(graphic as Image).originY;		
-			setHitbox((graphic as Image).width - 1, (graphic as Image).height - 1, (graphic as Image).originX, (graphic as Image).originY);		
-			
+			this.image.centerOO();
+			setHitbox(image.width, image.height, image.originX, image.originY);
+
 			Input.define('U', Key.UP);
 			Input.define('D', Key.DOWN);
 			Input.define('L', Key.LEFT);
@@ -39,6 +38,8 @@ package net.jpunk
 		{
 			var xMove:Number = 0;
 			var yMove:Number = 0;
+			
+			// Determine move distance
 			if (Input.check('U'))
 				if (Input.check('L'))  
 				{
@@ -82,11 +83,16 @@ package net.jpunk
 					y = y + 1 * FP.sign(yMove);
 			}			
 			
+			// Check edge of screen
+			if (x - image.originX < 0)
+				x = image.originX;
+			else if (x + image.originX > FP.width)
+				x = FP.width - image.originX;		
+			if (y - image.originY < 0)
+				y = image.originY;				
+			else if (y + image.originY > FP.height)
+				y = FP.height - image.originY;				
 			
-			if (!collide('solid', x + xMove, y))
-				x += xMove;
-			if (!collide('solid', x, y + yMove))
-				y += yMove;
 			super.update();
 		}
 		
