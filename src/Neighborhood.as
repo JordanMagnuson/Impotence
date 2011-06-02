@@ -1,6 +1,7 @@
 package src 
 {
 	import net.flashpunk.FP;
+	import net.jpunk.TextEntity;
 	import net.jpunk.Util;
 	
 	/**
@@ -21,15 +22,24 @@ package src
 		override public function begin():void
 		{
 			Global.neighborhoodIndex = this.index;
-			trace('Global.neighborhoodIndex: ' + Global.neighborhoodIndex);
-			add(new ExitUp(20, FP.halfHeight, new Village(Global.villageIndex)));
+			
+			// Text
+			this.topText = new TextEntity(FP.halfWidth, 20, "In the world's average neighborhood or family group of 70 people, 10 are hungry.", 10, 'casual_encounter', 400);
+			add(this.topText);
+			this.percentFedText = new TextEntity(FP.halfWidth, 50, '', 12, 'verdana');
+			add(this.percentFedText);
+			
+			// Exit
+			add(new ExitUp(50, FP.halfHeight, new Village(Global.villageIndex)));
+			
+			// Super
 			super.begin();
 		}		
 		
 		override public function populate():void
 		{
-			var x:int = GRID_SIZE;
-			var y:int = GRID_SIZE;
+			var x:int = 100;
+			var y:int = 150;
 			var fed:Boolean;
 			var personArray:Array;
 			for (var i:int = 0; i < NUMBER_OF_PEOPLE; i++)
@@ -45,7 +55,34 @@ package src
 		
 		override public function markThisFed():void
 		{
-		}		
+			Global.fedNeighborhoods.push(new Array(Global.continentIndex, Global.nationIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex));
+		}				
+		
+		override public function checkPercentFed():Number		
+		{
+			var percentFed:Number = 0;
+			var personList:Array = [];	
+			var fedList:Array = [];	
+			getClass(Person, personList);				
+			for each (var p:Person in personList)
+			{
+				if (p.fed)
+					fedList.push(p);
+			}
+			percentFed = (fedList.length / personList.length);
+			trace('person percent fed: ' + percentFed);
+			return percentFed;
+		}					
+		
+		override public function updateProgressBar():void
+		{
+			trace('neighborhood update percentfedtext');
+			trace('percent fed: ' + this.percentFed);
+			this.percentFedText.updateText("Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed * 100) + "%");
+			super.updateProgressBar();
+			//this.percentFedText = new TextEntity(FP.halfWidth, 50, "Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed), 8, 'casual_encounter');
+			//add(this.topText);
+		}
 		
 		public function makePersonArray(localIndex:int):Array
 		{

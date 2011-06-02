@@ -4,6 +4,8 @@ package src
 	import net.flashpunk.graphics.Image;
 	import net.jpunk.Colors;
 	import net.flashpunk.FP;
+	import net.flashpunk.utils.Input;
+	import flash.ui.Mouse;
 	
 	/**
 	 * ...
@@ -11,54 +13,59 @@ package src
 	 */
 	public class Person extends Entity
 	{
-		public var image:Image = new Image(Assets.PERSON);
+		public var image:Image;
 		public var indexArray:Array;
 		public var fed:Boolean = false;
 		
 		public function Person(x:Number = 0, y:Number = 0, indexArray:Array = null, fed:Boolean = false) 
 		{
+			if (fed)
+			{
+				image = new Image(Assets.PERSON_01_FED);
+				image.color = Global.FED_COLOR;				
+			}
+			else
+			{
+				image = new Image(Assets.PERSON_01_HUNGRY);
+				image.color = Global.HUNGRY_COLOR;	
+			}
 			super(x, y, image);
+			
 			this.indexArray = indexArray;
 			this.fed = fed;
-			if (fed)
-				image.color = Colors.PLAINS_GREEN;
-			else
-				image.color = Colors.BLOOD_RED;
 				
-			image.centerOO();
-			setHitbox(image.width, image.height, image.originX, image.originY);	
+			//image.originX = image.scaledWidth / 2;
+			//image.originY = image.scaledHeight / 2;
+			//image.x = image.originX;
+			//image.y = image.originY;
+			//image.scale = 0.4;
+			setHitbox(image.scaledWidth, image.scaledHeight, image.originX, image.originY);	
 			
 			type = 'person';
 		}
 		
-		override public function update():void
-		{
-			if (!fed && collide('player', x, y))
-				feed();
-			super.update();
-		}
-		
 		public function feed():void
 		{
-			image.color = Colors.PLAINS_GREEN;
+			if (fed)
+				return;
+			
+			trace('feed');
+			// Update image
+			graphic = image = new Image(Assets.PERSON_01_FED);
+			image.color = Global.FED_COLOR;
+			setHitbox(image.scaledWidth, image.scaledHeight, image.originX, image.originY);	
+			
+			// Mark fed
 			fed = true;
 			Global.fedPeople.push(indexArray);
-			if (checkAllFed())
-				Global.fedNeighborhoods.push(new Array(Global.continentIndex, Global.nationIndex, Global.provinceIndex, Global.prefectureIndex, Global.countyIndex, Global.townshipIndex, Global.villageIndex, Global.neighborhoodIndex));
+			var percentFed:Number = (world as Neighborhood).checkPercentFed();
+			(world as Neighborhood).percentFed = percentFed;
+			(world as Neighborhood).updateProgressBar();
+			
+			// Check all
+			if (percentFed == 1)
+				(world as Neighborhood).markThisFed();
 		}
-		
-		public function checkAllFed():Boolean		
-		{
-			var personList:Array = [];	
-			FP.world.getClass(Person, personList);				
-			for each (var p:Person in personList)
-			{
-				if (!p.fed)
-					return false;
-			}
-			return true;
-		}
-		
 	}
 
 }

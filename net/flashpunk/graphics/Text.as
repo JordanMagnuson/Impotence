@@ -9,6 +9,7 @@
 	import flash.text.TextLineMetrics;
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
+	import flash.text.AntiAliasType;
 	
 	/**
 	 * Used for drawing text using embedded fonts.
@@ -72,7 +73,7 @@
 		 *				For backwards compatibility, if options is a Number, it will determine the initial buffer width.
 		 * @param	h		Deprecated. For backwards compatibility: if set and there is no options.height parameter set, will determine the initial buffer height.
 		 */
-		public function Text(text:String, x:Number = 0, y:Number = 0, options:Object = null, h:Number = 0)
+		public function Text(text:String, x:Number = 0, y:Number = 0, sharpness:Number = 0, antiAliasType:String = 'advanced', options:Object = null, h:Number = 0)
 		{
 			_font = Text.font;
 			_size = Text.size;
@@ -100,6 +101,9 @@
 					if (options.hasOwnProperty("height")) height = options.height;
 				}
 			}
+			
+			_field.antiAliasType = antiAliasType;
+			_field.sharpness = sharpness;
 			
 			_field.embedFonts = true;
 			_field.wordWrap = _wordWrap;

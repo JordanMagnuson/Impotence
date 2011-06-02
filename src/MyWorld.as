@@ -2,6 +2,8 @@ package src
 {
 	import net.flashpunk.World;
 	import net.flashpunk.FP;
+	import net.jpunk.ProgressBar;
+	import net.jpunk.TextEntity;
 	
 	/**
 	 * ...
@@ -12,6 +14,11 @@ package src
 		public var started:Boolean = false;
 		public var index:int = 0;
 		public var depth:int = 0;
+		public var topText:TextEntity;
+		
+		public var percentFed:Number = 0;
+		public var percentFedText:TextEntity;
+		public var progressBar:ProgressBar;
 		
 		public function MyWorld(index:int = 0) 
 		{
@@ -22,7 +29,9 @@ package src
 		{
 			super.begin();
 			populate();
-			add(Global.player = new Player(FP.halfWidth, FP.halfHeight));
+			add(Global.mouseController = new MouseController);
+			add(progressBar = new ProgressBar(100, 100, 100, 40));
+			//add(Global.player = new Player(FP.halfWidth, FP.halfHeight));
 		}
 		
 		override public function update():void
@@ -30,7 +39,9 @@ package src
 			if (!started)
 			{
 				started = true;
-				if (checkAllChildrenFed())
+				percentFed = checkPercentFed();
+				updateProgressBar();
+				if (percentFed == 1)
 				{
 					markThisFed();	
 				}
@@ -48,18 +59,25 @@ package src
 			
 		}
 		
-		public function checkAllChildrenFed():Boolean		
+		public function updateProgressBar():void
 		{
+			this.progressBar.setPercentComplete(this.percentFed);
+		}
+		
+		public function checkPercentFed():Number		
+		{
+			var percentFed:Number = 0;
 			var exitDownList:Array = [];	
-			getClass(ExitDown, exitDownList);	
-			trace(exitDownList);
+			var fedList:Array = [];	
+			FP.world.getClass(ExitDown, exitDownList);				
 			for each (var e:ExitDown in exitDownList)
 			{
-				if (!e.fed)
-					return false;
+				if (e.fed)
+					fedList.push(e);
 			}
-			return true;	
-		}
+			percentFed = (fedList.length / exitDownList.length);
+			return percentFed;
+		}				
 		
 	}
 

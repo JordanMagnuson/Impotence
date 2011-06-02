@@ -1,11 +1,18 @@
 package src 
 {
+	import flash.geom.Point;
+	import net.jpunk.Colors;
+	
 	/**
 	 * ...
 	 * @author Jordan Magnuson
 	 */
 	public class Global 
 	{
+		// Aesthetics
+		public static const HUNGRY_COLOR:uint = Colors.BLOOD_RED;
+		public static const FED_COLOR:uint = Colors.PLAINS_GREEN;
+		
 		// Depth definitions
 		public static var depth:int;
 		public static const NEIGHBORHOOD:int = 0;
@@ -37,6 +44,7 @@ package src
 		
 		// Global entities
 		public static var player:Player;
+		public static var mouseController:MouseController;
 		
 	}
 

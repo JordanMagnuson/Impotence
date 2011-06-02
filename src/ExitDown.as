@@ -25,21 +25,18 @@ package src
 			
 			this.fed = fed
 			if (fed)
-				image.color = Colors.PLAINS_GREEN;
+				image.color = Global.FED_COLOR;
 			else	
-				image.color = Colors.BLOOD_RED;
+				image.color = Global.HUNGRY_COLOR;
 			image.centerOO();
 			setHitbox(image.width, image.height, image.originX, image.originY);
 			
 			type = 'exit_down';			
 		}
 		
-		override public function update():void
+		public function exit():void
 		{
-			if (collide('player', x, y))
-			{
-				FP.world = exitToWorld;
-			}
+			FP.world = exitToWorld;
 		}
 		
 	}
