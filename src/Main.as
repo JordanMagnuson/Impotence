@@ -9,11 +9,11 @@ package src
 	{
 		public function Main() 
 		{
-			super(800, 400, 60);
+			super(800, 450, 60);
 			FP.screen.color = Colors.WHITE;
 			
 			// Console for debugging
-			FP.console.enable();		
+			//FP.console.enable();		
 			
 			FP.world = new Neighborhood;
 			

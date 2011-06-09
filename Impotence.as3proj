@@ -7,7 +7,7 @@
     <movie path="bin\Impotence.swf" />
     <movie fps="30" />
     <movie width="800" />
-    <movie height="400" />
+    <movie height="450" />
     <movie version="10" />
     <movie background="#FFFFFF" />
   </output>

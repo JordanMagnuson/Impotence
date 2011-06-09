@@ -20,6 +20,7 @@ package src
 			breadImage.centerOO();
 			handImage.centerOO();
 			type = 'mouse_controller';
+			layer = -1000;
 		}
 		
 		override public function update():void
@@ -49,7 +50,7 @@ package src
 				if (Input.mousePressed)
 					overlapExitDown.exit();			
 			}
-			else if (overlapPerson)
+			else if (overlapPerson && !overlapPerson.fed)
 			{
 				graphic = breadImage;
 				visible = true;

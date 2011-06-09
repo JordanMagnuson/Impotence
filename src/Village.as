@@ -21,7 +21,7 @@ package src
 		override public function begin():void
 		{
 			Global.villageIndex = this.index;
-			add(new ExitUp(20, FP.halfHeight, new Township(Global.townshipIndex)));	
+			this.exitUp = new ExitUp(20, FP.halfHeight, new Township(Global.townshipIndex));	
 			super.begin();
 		}
 		

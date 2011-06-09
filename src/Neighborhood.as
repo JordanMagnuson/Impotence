@@ -25,12 +25,11 @@ package src
 			
 			// Text
 			this.topText = new TextEntity(FP.halfWidth, 20, "In the world's average neighborhood or family group of 70 people, 10 are hungry.", 10, 'casual_encounter', 400);
-			add(this.topText);
 			this.percentFedText = new TextEntity(FP.halfWidth, 50, '', 12, 'verdana');
-			add(this.percentFedText);
+			this.instructionText = new TextEntity(FP.halfWidth, 20, "Click and drag your mouse to feed the hungry people.", 8, 'casual_encounter', 400);
 			
 			// Exit
-			add(new ExitUp(50, FP.halfHeight, new Village(Global.villageIndex)));
+			this.exitUp = new ExitUp(50, FP.halfHeight, new Village(Global.villageIndex));
 			
 			// Super
 			super.begin();

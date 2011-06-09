@@ -16,42 +16,58 @@ package net.jpunk
 		public var barHeight:Number;
 		public var barColor:uint;
 		public var bgColor:uint;
+		public var centered:Boolean;
 		
 		public var bar:Image;
-		public var bg:Image;
+		public var bg:Image;	
 		
-		public var _point:Point;
+		public var barOpacity:Number;
+		public var bgOpacity:Number;
 		
-		public function ProgressBar(x:Number = 0, y:Number = 0, barWidth:Number = 0, barHeight:Number = 0, bgColor:uint = 0xFFE5E5E5, barColor:uint = 0xFF000000) 
+		public function ProgressBar(x:Number = 0, y:Number = 0, barWidth:Number = 0, barHeight:Number = 0, bgColor:uint = 0xFFE5E5E5, bgOpacity:Number = 1, barColor:uint = 0xFF000000, barOpacity:Number = 1, centered:Boolean = false) 
 		{
 			this.barWidth = barWidth;
 			this.barHeight = barHeight;
 			this.bgColor = bgColor;
+			this.bgOpacity = bgOpacity;
 			this.barColor = barColor;
-			bg = Image.createRect(barWidth, barHeight, bgColor);
-			bar = Image.createRect(1, 1, bgColor);
+			this.barOpacity = barOpacity;
+			this.centered = centered;
+			bg = Image.createRect(barWidth, barHeight, bgColor, bgOpacity);
+			bar = Image.createRect(1, 1, bgColor, 0);
+			
 			super(x, y);
-			_point = new Point(x, y);
+			
+			if (centered) 
+			{
+				bg.centerOO();
+			}		
+			setHitbox(bg.width, bg.height, bg.originX, bg.originY);			
 		}
 		
 		public function setPercentComplete(percentComplete:Number):void
 		{
 			if (percentComplete <= 0)
 			{
-				bar = Image.createRect(1, 1, bgColor);
+				bar = Image.createRect(1, 1, bgColor, 0);
 				return;
 			}
 			
 			this.percentComplete = percentComplete;
 			var fillWidth:Number = Math.floor(percentComplete * barWidth);
-			bar = Image.createRect(fillWidth, barHeight, barColor);
+			bar = Image.createRect(fillWidth, barHeight, barColor, barOpacity);
 		}
 		
 		override public function render():void
 		{
-			//super.render();
+			// bg
 			bg.render(renderTarget ? renderTarget : FP.buffer, new Point(x, y), FP.camera);
-			bar.render(renderTarget ? renderTarget : FP.buffer, new Point(x, y), FP.camera);
+			
+			// bar
+			if (centered) 
+				bar.render(renderTarget ? renderTarget : FP.buffer, new Point(x - halfWidth, y - halfHeight), FP.camera);
+			else 
+				bar.render(renderTarget ? renderTarget : FP.buffer, new Point(x, y), FP.camera);
 		}
 		
 	}
