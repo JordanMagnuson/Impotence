@@ -17,5 +17,8 @@ package net.jpunk
 		public static const FOREST_BROWN:uint = 0x9d481a;
 		public static const PLAINS_GREEN:uint = 0x006b3e;
 		public static const SNOW_WHITE:uint = 0xFFFFFFFF;
+		
+		public static const LIGHT_BROWN:uint = 0xBA7E41;
+		public static const DARK_BROWN:uint = 0x784613;		
 	}
 }

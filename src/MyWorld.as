@@ -14,13 +14,17 @@ package src
 		public var started:Boolean = false;
 		public var index:int = 0;
 		public var depth:int = 0;
-		public var topText:TextEntity;
-		public var instructionText:TextEntity;
-		public var exitUp:ExitUp;
+		
+		public var topText:String;
+		public var progressBar:ProgressBar;
+		public var instructionText:String;
 		
 		public var percentFed:Number = 0;
-		public var percentFedText:TextEntity;
-		public var progressBar:ProgressBar;
+		public var percentFedText:String;
+		public var percentFedTextEntity:TextEntity;
+		
+		public var exitText:String;
+		public var exitUpWorld:World;		
 		
 		public function MyWorld(index:int = 0) 
 		{
@@ -34,29 +38,30 @@ package src
 			add(Global.mouseController = new MouseController);
 			
 			// Text
-			if (!this.topText) this.topText = new TextEntity(FP.halfWidth, 20, "Default top text", 10, 'casual_encounter', 400);
-			if (!this.percentFedText) this.percentFedText = new TextEntity(FP.halfWidth, 100, 'Percentage of hungry people in this room who have been fed', 12, 'verdana');
-			if (!this.instructionText) this.instructionText = new TextEntity(FP.halfWidth, 20, "Instruction text", 8, 'casual_encounter', 400);
+			if (!this.topText) this.topText = "Default top text";
+			if (!this.percentFedText) this.percentFedText = "Percentage of hungry people in this room who have been fed:";
+			if (!this.instructionText) this.instructionText = "Default instruction text";	
+			if (!this.exitText) this.exitText = "When you have finished feeding everyone here, click on the door icon to go up a level.";
+			
+			//---------------------------------------------
+			// Add and position entities
+			//---------------------------------------------
+			
+			// Top text
+			add(new TextEntity(FP.halfWidth, 30, topText, 10, 'casual_encounter', 400));
 			
 			// Progress bar
-			this.progressBar = new ProgressBar(FP.halfWidth, 50, 440, 30, 0XFFE5E5E5, 1, Global.FED_COLOR, 1, true);
+			add(this.progressBar = new ProgressBar(FP.halfWidth, 60, FP.width, 20, 0XFFE5E5E5, 1, Global.FED_COLOR, 1, true));
+			
+			// Percent fed text
+			add(this.percentFedTextEntity = new TextEntity(FP.halfWidth, 80, percentFedText, 11, 'verdana'));
+			
+			// Instruction text
+			add(new TextEntity(FP.halfWidth, 110, instructionText, 8, 'casual_encounter', 400));
 			
 			// Exit
-			if (!this.exitUp) this.exitUp = new ExitUp(50, FP.halfHeight);		
-			
-			// Position
-			this.topText.y = 30;
-			this.progressBar.y = 70;
-			this.percentFedText.y = 95;
-			this.instructionText.y = 120;
-			this.exitUp.x = 60;
-			this.exitUp.y = 350;
-			
-			add(this.topText);
-			add(this.percentFedText);
-			add(this.progressBar);
-			add(this.instructionText);
-			add(this.exitUp);
+			add(new ExitUp(50, 427, this.exitUpWorld));
+			add(new TextEntity(85, 416, exitText, 11, 'verdana', 0, 0xFF000000, false));
 			
 			//add(Global.player = new Player(FP.halfWidth, FP.halfHeight));
 		}
@@ -88,8 +93,9 @@ package src
 		
 		public function updateProgressBar():void
 		{
+			var percent:Number = Math.ceil(percentFed * 10000) / 100;
 			this.progressBar.setPercentComplete(this.percentFed);
-			//this.percentFedText.updateText("Percentage of hungry people in this room who have been fed: " + String(percentFed * 100) + "%");
+			this.percentFedTextEntity.updateText(this.percentFedText + " " + percent + "%");
 			//this.percentFedText = new TextEntity(FP.halfWidth, 50, "Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed), 8, 'casual_encounter');
 			//add(this.topText);			
 		}

@@ -1,8 +1,10 @@
 package src 
 {
+	import flash.geom.Point;
 	import net.flashpunk.FP;
 	import net.jpunk.TextEntity;
 	import net.jpunk.Util;
+	import net.jpunk.VisualGrid;
 	
 	/**
 	 * ...
@@ -10,10 +12,13 @@ package src
 	 */
 	public class Neighborhood extends MyWorld
 	{
-		public static const NUMBER_OF_PEOPLE:int = 10;
-		public static const GRID_SIZE:int = 60;
+		public static const NUMBER_OF_ITEMS:int = 50;
+		public static const GRID_WIDTH:int = 700;
+		public static const GRID_HEIGHT:int = 250;
+		public static const GRID_ROWS:int = 3;
+		public static const GRID_COLS:int = 20;
 		
-		public function Neighborhood(index:int = 0) 
+		public function Neighborhood(index:int = 0)
 		{
 			super(index);
 			this.depth = Global.NEIGHBORHOOD;
@@ -24,12 +29,12 @@ package src
 			Global.neighborhoodIndex = this.index;
 			
 			// Text
-			this.topText = new TextEntity(FP.halfWidth, 20, "In the world's average neighborhood or family group of 70 people, 10 are hungry.", 10, 'casual_encounter', 400);
-			this.percentFedText = new TextEntity(FP.halfWidth, 50, '', 12, 'verdana');
-			this.instructionText = new TextEntity(FP.halfWidth, 20, "Click and drag your mouse to feed the hungry people.", 8, 'casual_encounter', 400);
+			this.topText = "In the average small world village of 350 people, 50 are hungry.";
+			this.percentFedText = "Percentage of hungry people in this village who have been fed:";
+			this.instructionText = "Click and drag your mouse to feed the hungry people.";
 			
 			// Exit
-			this.exitUp = new ExitUp(50, FP.halfHeight, new Village(Global.villageIndex));
+			this.exitUpWorld = new Township(Global.townshipIndex);
 			
 			// Super
 			super.begin();
@@ -37,18 +42,30 @@ package src
 		
 		override public function populate():void
 		{
-			var x:int = 100;
-			var y:int = 150;
+			var gridX:Number = Global.GRID_CENTER.x - GRID_WIDTH / 2;
+			var gridY:Number = Global.GRID_CENTER.y - GRID_HEIGHT / 2;
+			var grid:VisualGrid = new VisualGrid(gridX, gridY, GRID_WIDTH, GRID_HEIGHT, GRID_ROWS, GRID_COLS);
+			//grid.layer = 5;
+			//add(grid);
+			//for each (var cell:Object in grid.cells)
+			//{
+				//
+			//}
+
+			
+			var x:int;
+			var y:int;
 			var fed:Boolean;
 			var personArray:Array;
-			for (var i:int = 0; i < NUMBER_OF_PEOPLE; i++)
+			for (var i:int = 0; i < NUMBER_OF_ITEMS; i++)
 			{
+				x = grid.cells[i].centerX;
+				y = grid.cells[i].centerY;
 				fed = false;
 				personArray = makePersonArray(i);
 				if (checkPersonFed(personArray))
 					fed = true;
 				FP.world.add(new Person(x, y, personArray, fed));
-				x += GRID_SIZE;
 			}
 		}
 		
@@ -73,15 +90,15 @@ package src
 			return percentFed;
 		}					
 		
-		override public function updateProgressBar():void
-		{
-			trace('neighborhood update percentfedtext');
-			trace('percent fed: ' + this.percentFed);
-			this.percentFedText.updateText("Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed * 100) + "%");
-			super.updateProgressBar();
+		//override public function updateProgressBar():void
+		//{
+			//trace('neighborhood update percentfedtext');
+			//trace('percent fed: ' + this.percentFed);
+			//this.percentFedText.updateText("Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed * 100) + "%");
+			//super.updateProgressBar();
 			//this.percentFedText = new TextEntity(FP.halfWidth, 50, "Percentage of hungry people in this neighborhood who have been fed: " + String(percentFed), 8, 'casual_encounter');
 			//add(this.topText);
-		}
+		//}
 		
 		public function makePersonArray(localIndex:int):Array
 		{

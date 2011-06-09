@@ -13,10 +13,10 @@ package src
 	 */
 	public class ExitUp extends Entity
 	{
-		public static const WIDTH:Number = 60;
+		public static const WIDTH:Number = 36;
 		
 		public var exitToWorld:World;
-		public var image:Spritemap = new Spritemap(Assets.DOOR, 60, 78);
+		public var image:Spritemap = new Spritemap(Assets.DOOR, 36, 47);
 		
 		public function ExitUp(x:Number = 0, y:Number = 0, exitToWorld:World = null) 
 		{

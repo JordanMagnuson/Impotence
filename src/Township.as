@@ -28,7 +28,7 @@ package src
 		override public function populate():void
 		{
 			var x:int = GRID_SIZE;
-			var y:int = GRID_SIZE;
+			var y:int = 150;
 			var fed:Boolean;
 			for (var i:int = 0; i < NUMBER_OF_VILLAGES; i++)
 			{

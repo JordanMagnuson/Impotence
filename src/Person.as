@@ -39,6 +39,7 @@ package src
 			//image.x = image.originX;
 			//image.y = image.originY;
 			//image.scale = 0.4;
+			image.centerOO();
 			setHitbox(image.scaledWidth, image.scaledHeight, image.originX, image.originY);	
 			
 			type = 'person';
@@ -53,6 +54,7 @@ package src
 			// Update image
 			graphic = image = new Image(Assets.PERSON_01_FED);
 			image.color = Global.FED_COLOR;
+			image.centerOO();
 			setHitbox(image.scaledWidth, image.scaledHeight, image.originX, image.originY);	
 			
 			// Mark fed

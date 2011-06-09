@@ -13,6 +13,9 @@ package src
 		public static const HUNGRY_COLOR:uint = Colors.BLOOD_RED;
 		public static const FED_COLOR:uint = Colors.PLAINS_GREEN;
 		
+		// For populating the center screen
+		public static const GRID_CENTER:Point = new Point(400, 250);
+		
 		// Depth definitions
 		public static var depth:int;
 		public static const NEIGHBORHOOD:int = 0;
